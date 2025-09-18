@@ -1,0 +1,3 @@
+[submodule "atividade_1/raylib"]
+	path = atividade_1/raylib
+	url = https://github.com/raysan5/raylib
