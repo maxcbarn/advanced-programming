@@ -1,61 +1,36 @@
 #include "../lib/Dot.hpp"
 
-Dot::Dot( float x , float y , Constrains * constrains ) {
-    position.x = x;
-    position.y = y;
+Dot::Dot( Vector2 position , Constrains * constrains , Color color ) {
+    this->position = position;
     this->constrains = constrains;
+    this->color = color;
 }
 
 Dot::~Dot() {
 
 }
 
-void Dot::Move( float x , float y ) {
-    if( velocity.x == 0 && velocity.y == 0 ) {
-        if( x > constrains->maxXPosition ) {
-            x = constrains->maxXPosition;
-        }
-        if( x < constrains->minXPosition ) {
-            x = constrains->minXPosition;
-        }
-        if( y > constrains->maxYPosition ) {
-            y = constrains->maxYPosition;
-        }
-        if( y > constrains->minYPosition ) {
-            y = constrains->minYPosition;
-        }
-    } else {
-        if( position.x + velocity.x > constrains->maxXPosition || position.x + velocity.x < constrains->minXPosition ) {
-            if( position.x + velocity.x > constrains->maxXPosition ) {
-                x = constrains->maxXPosition;
-            } else {
-                x = constrains->minXPosition;
-            }
-            velocity.x *= -1;
-        } else {
-            x = position.x + velocity.x;
-        }
-        if( position.y + velocity.y > constrains->maxYPosition || position.y + velocity.y < constrains->minYPosition ) {
-            if( position.y + velocity.y > constrains->maxYPosition ) {
-                y = constrains->maxYPosition;
-            } else {
-                y = constrains->minYPosition;
-            }
-            velocity.y *= -1;
-        } else {
-            y = position.y + velocity.y;
-        }
+void Dot::Move( Vector2 position ) {
+    if( position.x > constrains->maxXPosition ) {
+        position.x = constrains->maxXPosition;
     }
-    position.x = x;
-    position.y = y;
-}
-
-
-void Dot::SetVelocity( float x , float y ) {
-    velocity.x = x;
-    velocity.y = y;
+    if( position.x < constrains->minXPosition ) {
+        position.x = constrains->minXPosition;
+    }
+    if( position.y > constrains->maxYPosition ) {
+        position.y = constrains->maxYPosition;
+    }
+    if( position.y > constrains->minYPosition ) {
+        position.y = constrains->minYPosition;
+    }
+    this->position.x = position.x;
+    this->position.y = position.y;
 }
 
 Vector2 Dot::GetPosition() {
     return position;
+}
+
+void Dot::ChangeColor( Color color ) {
+    this->color = color;
 }

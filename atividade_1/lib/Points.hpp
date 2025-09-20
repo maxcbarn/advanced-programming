@@ -14,9 +14,11 @@ private:
 public:
     Points();
     ~Points();
-    void CreatePoint( float x , float y , Constrains * constrains , Color color , int radius , float xVelocity , float yVelocity );
-    Point * Search();
+    void CreatePoint( Vector2 position , Constrains * constrains , Color color , int radius );
+    Point * Search( Vector2 mousePosition );
+    void InputMouse();
     void Draw();
+    bool ClickInputAction( Vector2 mousePosition , Color color );
 };
 
 #endif

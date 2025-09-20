@@ -7,6 +7,7 @@
 #include "../lib/Constrains.hpp"
 #include "../lib/Sides.hpp"
 #include <memory>
+#include <iostream>
 
 class Game
 {
@@ -16,7 +17,11 @@ private:
     Points * points;
     Sides * sides;
     Constrains * constrains;
+    Color selectedColor;
+
     void SetupGame();
+    void DrawMenu();
+    void MouseInput();
 public:
     Game( int fps, int heght ,  int width );
     void Run();
