@@ -9,16 +9,11 @@ Sides::~Sides(){
         vertexs.at( index ).reset();
     }
     vertexs.clear();
-    polys.clear();
 }
 
 void Sides::CreateSide( Vector2 startPosition , Vector2 endPosition , Constrains * constrains , Color color , int width ) {
     Vertex * startVertex = Search( startPosition );
     Vertex * endVertex = Search( endPosition );
-
-    if ( startVertex != nullptr && endVertex != nullptr ) {
-        startVertex->SetEndVertex( endVertex );
-    }
 
     if( startVertex == nullptr ) {
         vertexs.push_back( std::make_unique<Vertex>( startPosition , constrains , width , color ) );
@@ -31,16 +26,13 @@ void Sides::CreateSide( Vector2 startPosition , Vector2 endPosition , Constrains
     }
     
     startVertex->SetEndVertex( endVertex );
-    if( IsAPoly( startVertex ) ) {
-        AddPoly( startVertex );
-    }
 }
 
 Vertex * Sides::Search( Vector2 position ) {
     Vector2 searchPosition;
     for ( int index = 0 ; index < ( int )vertexs.size() ; index++ ) {
         searchPosition = vertexs.at( index ).get()->GetPosition();
-        if( searchPosition.x == position.x && searchPosition.y == position.y ) {
+        if( searchPosition.x == position.x && searchPosition.y == position.y && vertexs.at( index ).get()->GetEndVertex() == nullptr ) {
             return vertexs.at( index ).get();
         }
     }
@@ -48,33 +40,25 @@ Vertex * Sides::Search( Vector2 position ) {
 }
 
 void Sides::Draw( ) {
-    Vertex * crawler, * root;
     for ( int index = 0 ; index < ( int )vertexs.size() ; index++ ) {
         if ( vertexs.at( index ).get()->GetEndVertex() != nullptr ) {
             vertexs.at( index ).get()->Draw();
         }
     }
-    for ( int index = 0 ; index < ( int )polys.size() ; index++ ) {
-        root = polys.at( index );
-        crawler = root;
-        do {
-            DrawTriangle( crawler->GetEndVertex()->GetEndVertexPosition() , crawler->GetEndVertexPosition() , crawler->GetPosition() , polysColor.at( index ) );
-            crawler = crawler->GetEndVertex()->GetEndVertex();
-        } while ( crawler != root );        
-    }
 }
 
-bool Sides::ClickInputAction( Vector2 mousePosition , Color color ) {
-    Vertex * startVertex = SearchSide( mousePosition );
+bool Sides::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color ) {
+    Vertex * startVertex = SearchSide( mousePosition ), *root, *crawler;
     int polyIndex;
+    
     if( startVertex != nullptr ) {
-        startVertex->ChangeColor( color );
+        if( mouseButton == MOUSE_BUTTON_LEFT ){
+            startVertex->ChangeColor( color );
+        }
+        if( mouseButton == MOUSE_BUTTON_RIGHT ) {
+            DeleteSides( startVertex );
+        }
         return true;
-    }
-
-    polyIndex = SearchPoly( mousePosition ); 
-    if ( polyIndex != -1 ) {
-        polysColor.at( polyIndex ) = color;
     }
     return false;
 }
@@ -101,42 +85,44 @@ Vertex * Sides::SearchSide( Vector2 mousePosition ) {
     return nullptr;
 }
 
-int Sides::SearchPoly( Vector2 mousePosition ) {
-    Vertex * crawler, *root;
-    Vector2 startPoint, endPoint;
-    for ( int index = 0 ; index < ( int )polys.size() ; index++ ) {
-        root = polys.at( index );
-        crawler = root; 
-        do {
-            startPoint = crawler->GetPosition();
-            endPoint = crawler->GetEndVertexPosition();
-            if( !( startPoint.x >= mousePosition.x && endPoint.x <= mousePosition.x ) || ( startPoint.x <= mousePosition.x && endPoint.x >= mousePosition.x ) ){
-                break;
-            }
-            if( !( startPoint.y >= mousePosition.y && endPoint.y <= mousePosition.y ) || ( startPoint.y <= mousePosition.y && endPoint.y >= mousePosition.y ) ){
-                break;
-            }
-            crawler = crawler->GetEndVertex();
-        } while ( crawler != root );
-        if( crawler == root ) {
-            return index;
+void Sides::DeleteSides( Vertex * start ) {
+    Vertex * endVertex = start->GetEndVertex();
+    start->SetEndVertex( nullptr );
+    if( !CheckVertex( endVertex ) ) {
+        DeleteVertex( endVertex );
+    }
+    if( !CheckVertex( start ) ) {
+        DeleteVertex( start );
+    }
+}
+
+void Sides::DeleteVertex( Vertex * vertex ) {
+    std::deque< std::unique_ptr< Vertex > > auxDeque;
+    int indexElement;
+    for ( indexElement = 0 ; indexElement < ( int )vertexs.size() ; indexElement++ ) {
+        if( vertexs.at( indexElement ).get() == vertex ){
+            break;
         }
     }
-    return -1;
+    for ( int index = 0 ; index <= indexElement ; index++) {
+        auxDeque.push_back( std::move( vertexs.front() ) );
+        vertexs.pop_front();
+    }
+    auxDeque.pop_back();
+    for ( int index = 0 ; index < indexElement ; index++ ) {
+        vertexs.push_front( std::move( auxDeque.back() ) );
+        auxDeque.pop_back();
+    }
 }
 
-bool Sides::IsAPoly( Vertex * vertex ) {
-    Vertex * crawler = vertex->GetEndVertex();
-    while ( crawler != nullptr && crawler != vertex ) {
-        crawler = crawler->GetEndVertex();
+bool Sides::CheckVertex( Vertex * vertex ) {
+    if( vertex->GetEndVertex() != nullptr ) {
+        return true;
     }
-    if( crawler == nullptr ) {
-        return false;
+    for ( size_t index = 0 ; index < vertexs.size() ; index++ ) {
+        if( vertexs.at( index ).get()->GetEndVertex() == vertex ) {
+            return true;
+        }
     }
-    return true;
-}
-
-void Sides::AddPoly( Vertex * vertex ) {
-    polys.push_back( vertex );
-    polysColor.push_back( YELLOW );
+    return false;   
 }

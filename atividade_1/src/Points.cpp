@@ -31,11 +31,35 @@ Point * Points::Search( Vector2 mousePosition ){
     return nullptr;
 }
 
-bool Points::ClickInputAction( Vector2 mousePosition , Color color ) {
+bool Points::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color ) {
     Point * point = Search( mousePosition );
     if( point == nullptr ) {
         return false;
     }
-    point->ChangeColor( color );
+    if( mouseButton == MOUSE_BUTTON_LEFT ) {
+        point->ChangeColor( color );
+    }
+    if( mouseButton == MOUSE_BUTTON_RIGHT ) {
+        PopPoint( point );
+    } 
     return true;
+}
+
+void Points::PopPoint( Point * point ) {
+    std::deque< std::unique_ptr< Point > > auxDeque;
+    int indexElement;
+    for ( indexElement = 0 ; indexElement < ( int )points.size() ; indexElement++ ) {
+        if( points.at( indexElement ).get() == point ){
+            break;
+        }
+    }
+    for ( int index = 0 ; index <= indexElement ; index++) {
+        auxDeque.push_back( std::move( points.front() ) );
+        points.pop_front();
+    }
+    auxDeque.pop_back();
+    for ( int index = 0 ; index < indexElement ; index++ ) {
+        points.push_front( std::move( auxDeque.back() ) );
+        auxDeque.pop_back();
+    }
 }

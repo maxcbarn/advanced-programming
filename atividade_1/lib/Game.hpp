@@ -8,6 +8,7 @@
 #include "../lib/Sides.hpp"
 #include <memory>
 #include <iostream>
+#include <queue>
 
 class Game
 {
@@ -21,7 +22,7 @@ private:
 
     void SetupGame();
     void DrawMenu();
-    void MouseInput();
+    void Input();
 public:
     Game( int fps, int heght ,  int width );
     void Run();

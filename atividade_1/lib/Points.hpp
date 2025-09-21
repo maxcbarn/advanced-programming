@@ -18,7 +18,8 @@ public:
     Point * Search( Vector2 mousePosition );
     void InputMouse();
     void Draw();
-    bool ClickInputAction( Vector2 mousePosition , Color color );
+    bool ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color );
+    void PopPoint( Point * point );
 };
 
 #endif
