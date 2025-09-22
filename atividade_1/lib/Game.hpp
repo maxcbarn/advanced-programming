@@ -6,9 +6,11 @@
 #include "../lib/Points.hpp"
 #include "../lib/Constrains.hpp"
 #include "../lib/Sides.hpp"
+#include "../lib/Log.hpp"
 #include <memory>
 #include <iostream>
 #include <queue>
+#include <chrono>
 
 class Game
 {
@@ -19,6 +21,7 @@ private:
     Sides * sides;
     Constrains * constrains;
     Color selectedColor;
+    Log * log;
 
     void SetupGame();
     void DrawMenu();

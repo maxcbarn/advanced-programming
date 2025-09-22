@@ -48,8 +48,7 @@ void Sides::Draw( ) {
 }
 
 bool Sides::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color ) {
-    Vertex * startVertex = SearchSide( mousePosition ), *root, *crawler;
-    int polyIndex;
+    Vertex * startVertex = SearchSide( mousePosition );
     
     if( startVertex != nullptr ) {
         if( mouseButton == MOUSE_BUTTON_LEFT ){
@@ -64,6 +63,19 @@ bool Sides::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , 
 }
 
 Vertex * Sides::SearchSide( Vector2 mousePosition ) {
+                                                        /* 
+                                                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣶⣶⣶⣶⣶⣤⣄⡀⠀⠀⠀⠀⠀⠀
+                                                    ⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⡀⠀⠀⠀⠀⠀
+                                                    ⠀⠀⠀⣠⣴⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣵⣄⠀⠀⠀
+                                                    ⠀⠀⢾⣻⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⡀⠀
+                                                    ⠀⠸⣽⣻⠃⣿⡿⠋⣉⠛⣿⣿⣿⣿⣿⣿⣿⣿⣏⡟⠉⡉⢻⣿⡌⣿⣳⡥⠀
+                                                    ⠀⢜⣳⡟⢸⣿⣷⣄⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⣠⣼⣿⣇⢸⢧⢣⠀
+                                                    ⠀⠨⢳⠇⣸⣿⣿⢿⣿⣿⣿⣿⡿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡟⢆⠀
+                                                    ⠀⠀⠈⠀⣾⣿⣿⣼⣿⣿⣿⣿⡀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣽⣿⣿⠐⠈⠀⠀
+                                                    ⠀⢀⣀⣼⣷⣭⣛⣯⡝⠿⢿⣛⣋⣤⣤⣀⣉⣛⣻⡿⢟⣵⣟⣯⣶⣿⣄⡀⠀
+                                                    ⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣾⣶⣶⣴⣾⣿⣿⣿⣿⣿⣿⢿⣿⣿⣧
+                                                    ⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⣿⡿
+                                                    */
     auto distanceBetweenLineAndPoint = []( Vector2 start , Vector2 end , Vector2 point ) {
         return std::abs( ( ( end.y - start.y ) * point.x ) - ( ( end.x - start.x ) * point.y ) + ( end.x * start.y ) - ( end.y * start.x ) ) / std::sqrt( std::powf( end.y - start.y , 2 ) + std::powf( end.x - end.y , 2 ) );
     };
@@ -125,4 +137,11 @@ bool Sides::CheckVertex( Vertex * vertex ) {
         }
     }
     return false;   
+}
+
+int Sides::GetVertexQuantity() {
+    return vertexs.size();
+}
+
+void CreatePolys() {    
 }

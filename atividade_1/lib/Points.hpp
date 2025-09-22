@@ -20,6 +20,7 @@ public:
     void Draw();
     bool ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color );
     void PopPoint( Point * point );
+    int GetPointsQuantity();
 };
 
 #endif

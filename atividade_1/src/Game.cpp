@@ -11,6 +11,7 @@ Game::Game( int fps , int height , int width ) {
     this->width = width;
     running = true;
     selectedColor = WHITE;
+    log = new Log();
 }
 
 Game::~Game(){};
@@ -34,6 +35,10 @@ void Game::SetupGame() {
 }
 
 void Game::Run() {
+    std::chrono::duration<double, std::milli> drawTime;
+    std::chrono::duration<double, std::milli> actionTime;
+    auto start = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::high_resolution_clock::now();
     SetupGame();
 
     while( running ) {
@@ -41,17 +46,26 @@ void Game::Run() {
             running = false;
         }
         if( IsCursorOnScreen() ) {
+            start = std::chrono::high_resolution_clock::now();
             Input();    
-        } 
+            end = std::chrono::high_resolution_clock::now();
+            actionTime = end - start;
+        } else {
+            actionTime = std::chrono::duration<double, std::milli>(0);
+        }
         
         BeginDrawing( );  
         ClearBackground( BLACK );
         DrawMenu();
 
+        start = std::chrono::high_resolution_clock::now();
         sides->Draw();
         points->Draw();
+        end = std::chrono::high_resolution_clock::now();
+        drawTime = end - start;
 
         EndDrawing();
+        log->FormLog( GetMousePosition() , IsMouseButtonPressed( MOUSE_BUTTON_LEFT ) , IsMouseButtonPressed( MOUSE_BUTTON_RIGHT ) , drawTime.count() , actionTime.count() , points->GetPointsQuantity() , sides->GetVertexQuantity() );
     } 
     CloseWindow();
 }

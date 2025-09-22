@@ -63,3 +63,7 @@ void Points::PopPoint( Point * point ) {
         auxDeque.pop_back();
     }
 }
+
+int Points::GetPointsQuantity() {
+    return points.size();
+}

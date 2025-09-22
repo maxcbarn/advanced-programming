@@ -13,7 +13,7 @@ class Sides
 {
 private:
     std::deque< std::unique_ptr< Vertex > >vertexs;
-    
+    std::deque< std::deque< Vertex * > > polys;
 public:
     Sides();
     ~Sides();
@@ -25,6 +25,8 @@ public:
     void DeleteSides( Vertex * start );
     void DeleteVertex( Vertex * vertex );
     bool CheckVertex( Vertex * vertex );
+    int GetVertexQuantity();
+    void CreatePolys();
 };
 
 #endif
