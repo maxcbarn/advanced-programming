@@ -3,21 +3,22 @@
 
 #include "../lib/raylib.h"
 #include "../lib/Dot.hpp"
+#include <deque>
 
 class Vertex : public Dot
 {
 private:
     int width;
-    Vertex * endVertex;
+    std::deque< Vertex * > nextVertex;
 
 public:
     Vertex( Vector2 position , Constrains * Constrains , int width , Color color );
     ~Vertex();
-    Vector2 GetEndVertexPosition();
-    Vertex * GetEndVertex();
+    std::deque< Vertex * > GetNextVertex();
     int GetWidth();
     void Draw();
-    void SetEndVertex( Vertex * vertex );
+    void AddEndVertex( Vertex * vertex );
+    void RemoveEndVertex( Vertex * Vertex );
 };
 
 #endif

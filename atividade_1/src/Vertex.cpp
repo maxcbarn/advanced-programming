@@ -8,24 +8,30 @@ Vertex::Vertex( Vector2 position , Constrains * constrains , int width , Color c
 Vertex::~Vertex() {
 }
 
-Vector2 Vertex::GetEndVertexPosition() {
-    if( endVertex != nullptr ) {
-        return endVertex->GetPosition();
-    } else {
-        return Vector2{ -1 , -1 };
+std::deque< Vertex * > Vertex::GetNextVertex() {
+    return nextVertex;
+}
+
+void Vertex::RemoveEndVertex( Vertex * vertex ) {
+    for ( size_t index = 0 ; index < nextVertex.size() ; index++ ) {
+        if( nextVertex.front() == vertex ) {
+            nextVertex.pop_front();
+            break;
+        } else {
+            nextVertex.push_back( nextVertex.front() );
+            nextVertex.pop_front();
+        }
     }
 }
 
-Vertex* Vertex::GetEndVertex() {
-    return endVertex;
-}
-
-void Vertex::SetEndVertex( Vertex * vertex ) {
-    endVertex = vertex;
+void Vertex::AddEndVertex( Vertex * vertex ) {
+    nextVertex.push_back( vertex );
 }
 
 void Vertex::Draw() {
-    DrawLineEx( position , endVertex->GetPosition() , ( float )width , color );
+    for ( size_t index = 0 ; index < nextVertex.size() ; index++ ) {
+        DrawLineEx( position , nextVertex.at( index )->GetPosition() , ( float )width , color );
+    }
 }
 
 int Vertex::GetWidth() {
