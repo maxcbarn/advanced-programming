@@ -24,7 +24,9 @@ private:
     size_t SearchReturnIndex( Vertex * vertex );
     void AddPoly( std::deque< Vertex * > poly );
     void CheckDeletionSidePolys( Vertex * start , Vertex * end );
-    
+    void SearchPoly( Vector2 mousePosition );
+    bool CheckEqualsPoly( std::deque< Vertex * > poly1 , std::deque< Vertex * > poly2 );
+
 public:
     Sides();
     ~Sides();

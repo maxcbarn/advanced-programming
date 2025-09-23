@@ -31,7 +31,21 @@ void Sides::CreateSide( Vector2 startPosition , Vector2 endPosition , Constrains
     }
     startVertex->AddEndVertex( endVertex );
     endVertex->AddEndVertex( startVertex );
-    CreatePolys( SearchReturnIndex( startVertex ) );
+    for ( size_t index = 0 ; index < vertexs.size() ; index++ ) {
+        CreatePolys( index );
+    }
+    std::cout << polys.size() << "\n";
+
+    std::deque<Vertex*> aux;
+    for (size_t i = 0; i < polys.size(); i++)
+    {
+        /* code */
+        aux = polys.at(i);
+    
+        for ( size_t polyindex = 0; polyindex < aux.size(); polyindex++) {
+            std::cout << "Point " << polyindex + 1 << ": (" << aux.at( polyindex )->GetPosition().x << "," << aux.at( polyindex )->GetPosition().y << ")\n";
+        }
+    }
 }
 
 Vertex * Sides::Search( Vector2 position ) {
@@ -63,7 +77,6 @@ void Sides::Draw( ) {
 
 bool Sides::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , Color color ) {
     std::tuple< Vertex * , Vertex * > side = SearchSide( mousePosition );
-    
     if( std::get<0>(side) != nullptr ) {
         if( mouseButton == MOUSE_BUTTON_LEFT ){
             std::cout << "Point 1: (" << std::get<0>( side )->GetPosition().x << "," << std::get<0>( side )->GetPosition().y << ") Point 2: (" << std::get<1>( side )->GetPosition().x << "," << std::get<1>( side )->GetPosition().y << ")\n";
@@ -71,6 +84,10 @@ bool Sides::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition , 
         if( mouseButton == MOUSE_BUTTON_RIGHT ) {
             DeleteSides(  std::get<0>( side ) ,  std::get<1>( side ) );
         }
+        return true;
+    }
+    if( mouseButton == MOUSE_BUTTON_LEFT ) {
+        SearchPoly( mousePosition );
         return true;
     }
     return false;
@@ -114,7 +131,6 @@ void Sides::DeleteSides( Vertex * start , Vertex * end ) {
     CheckDeletionSidePolys( start , end );
     start->RemoveEndVertex( end );
     end->RemoveEndVertex( start );
-    std::cout << polys.size() << "\n";
 }
 
 void Sides::CheckDeletionSidePolys( Vertex * start , Vertex * end ) {
@@ -169,28 +185,35 @@ void Sides::CreatePolys( size_t index ) {
     std::vector< bool > bitMap( vertexs.size() , false );
     std::deque< Vertex * > backTrack;
     DeepFirstSearch( index , bitMap , backTrack , nullptr );
-    std::cout << polys.size() << "\n";
 }
 
 void Sides::AddPoly( std::deque< Vertex * > poly ) {
-    size_t indexPoly;
     if( poly.size() < 3 ) {
         return;
     }
     for ( size_t index = 0 ; index < polys.size() ; index++ ) {
-        if( poly.size() != polys.at( index ).size() ) {
+        if( !( poly.size() == polys.at( index ).size() ) ) {
             continue;
         } 
-        for ( indexPoly = 0 ; indexPoly < polys.at( index ).size() ; indexPoly++ ) {
-            if( poly.at( indexPoly ) != polys.at( index ).at( indexPoly ) ) {
-                break;
-            }
-        }
-        if( indexPoly == polys.at( index ).size() ) {
+        if( CheckEqualsPoly( poly , polys.at( index ) ) ) {
             return;
         }
     }
     polys.push_back( poly );
+}
+
+bool Sides::CheckEqualsPoly( std::deque< Vertex * > poly1 , std::deque< Vertex * > poly2 ) {
+    for ( size_t index1 = 0 ; index1 < poly1.size() ; index1++ ) {
+        for ( size_t index2 = 0 ; index2 < poly2.size() ; index2++ ) {
+            if( poly1.at( index1 ) == poly2.at( index2 ) ) {
+                break;
+            } 
+            if( poly2.size() - 1 == index2 ) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void Sides::DeepFirstSearch( size_t index , std::vector< bool > &bitMap , std::deque< Vertex * > &backTrack , Vertex * lastVertex ) {
@@ -204,10 +227,61 @@ void Sides::DeepFirstSearch( size_t index , std::vector< bool > &bitMap , std::d
             continue;
         }   
         if( bitMap[nextIndex] ) {
-            AddPoly( backTrack );
+            if( backTrack.at( 0 ) == vertexs.at( nextIndex ).get() ) {
+                AddPoly( backTrack );
+            }
         } else {
             DeepFirstSearch( nextIndex , bitMap , backTrack , vertexs.at( index ).get() );
         }
     }
     backTrack.pop_back();
+}
+
+                        /*                                                                            
+                            ########              
+                          ######  ####            
+                          ######  ############    
+                          ##################      
+                            ########              
+                            ######                
+                            ######                
+                            ######                
+                            ########              
+                          ############            
+                        ##############            
+                      ##################          
+          ##############################          
+        ################################          
+        ################################          
+          ############################            
+                ####################              
+                    ####                          
+                    ########  */                                         
+
+void Sides::SearchPoly( Vector2 mousePosition ) {
+    std::deque< Vertex * > aux;
+    Vector2 start, end;
+    size_t count = 0;
+    for ( size_t index = 0 ; index < polys.size() ; index++ ) {
+        aux = polys.at( index );
+        for ( size_t polyIndex = 0 ; polyIndex < aux.size() ; polyIndex++ ) {
+            if( polyIndex != aux.size() - 1 ) {
+                start = aux.at( polyIndex )->GetPosition();
+                end = aux.at( polyIndex + 1 )->GetPosition();
+            } else {
+                start = aux.at( polyIndex )->GetPosition();
+                end = aux.at( 0 )->GetPosition();
+            }
+            if( !( start.x > mousePosition.x || end.x > mousePosition.x ) ) { continue; }
+            if( !( ( start.y >= mousePosition.y && end.y <= mousePosition.y ) || ( start.y <= mousePosition.y && end.y >= mousePosition.y ) ) ) { continue; }
+            count++;
+        }
+        if( count % 2 != 0 && count > 0 ) {
+            std::cout << "\n-----------Polys-----------\n";
+            for ( size_t polyindex = 0; polyindex < aux.size(); polyindex++) {
+                std::cout << "Point " << polyindex + 1 << ": (" << aux.at( polyindex )->GetPosition().x << "," << aux.at( polyindex )->GetPosition().y << ")\n"; 
+            }
+        }
+        count = 0;
+    }
 }
