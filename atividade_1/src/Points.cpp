@@ -37,7 +37,7 @@ bool Points::ClickInputAction( MouseButton mouseButton , Vector2 mousePosition ,
         return false;
     }
     if( mouseButton == MOUSE_BUTTON_LEFT ) {
-        point->ChangeColor( color );
+        std::cout << "Point: (" << point->GetPosition().x << "," << point->GetPosition().y << ")\n";
     }
     if( mouseButton == MOUSE_BUTTON_RIGHT ) {
         PopPoint( point );

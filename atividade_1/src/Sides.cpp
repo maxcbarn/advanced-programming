@@ -34,18 +34,17 @@ void Sides::CreateSide( Vector2 startPosition , Vector2 endPosition , Constrains
     for ( size_t index = 0 ; index < vertexs.size() ; index++ ) {
         CreatePolys( index );
     }
-    std::cout << polys.size() << "\n";
+    /*std::cout << polys.size() << "\n";
 
     std::deque<Vertex*> aux;
     for (size_t i = 0; i < polys.size(); i++)
     {
-        /* code */
         aux = polys.at(i);
     
         for ( size_t polyindex = 0; polyindex < aux.size(); polyindex++) {
             std::cout << "Point " << polyindex + 1 << ": (" << aux.at( polyindex )->GetPosition().x << "," << aux.at( polyindex )->GetPosition().y << ")\n";
         }
-    }
+    }*/
 }
 
 Vertex * Sides::Search( Vector2 position ) {
