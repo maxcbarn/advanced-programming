@@ -1,0 +1,3 @@
+# Framework for Drawing, Creating and Deleting Points, Edges and Polygons
+
+This is the base of the next assignments made in this course, it uses raylib to draw the shapes on screen, so make sure it's installed in the system, this code can create points and edges, the edges are done in a undirected graph so that in the future it can detect the formation of polygons, it's logging the number of points and edges, the time that takes to draw the objects and the time to make a action, and if a mouse button has been pressed, this log is being turned into a graphical diagram that shows the draw time in function of the number of points using a python script.
