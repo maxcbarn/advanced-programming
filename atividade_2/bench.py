@@ -12,7 +12,7 @@ def DrawTimeNumberOfPoints( data ):
     
     plt.plot( data['NumberOfPoints'] , data['VoronoiDelaunayTime'] )
     plt.xlabel("Number Of Points")
-    plt.ylabel("Time To Draw (ms)")
+    plt.ylabel("Time To Compute (ms)")
     plt.title("Time To Compute Voronoi And Delaunay In Relation To Quantity Of Points")
     plt.legend()
     plt.grid( True )

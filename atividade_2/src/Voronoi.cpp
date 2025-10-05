@@ -119,8 +119,6 @@ std::deque < std::deque< Vector2 > > Voronoi::Compute() {
                     }  
                 }
             }
-            
-
         } else {
             cells.push_back( std::deque< Vector2 >() );
         }

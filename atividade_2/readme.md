@@ -17,6 +17,6 @@ E = Edges of a voronoi cell
 Ev = All edges of the voronoi diagram
 Ed = All edges of the delaunay triangulation 
 
-Time O( P² * 2E ) to compute voronoi and delaunay
+Time O( 2 * P² * E ) or simplified O( P² * E )  to compute voronoi and delaunay
 
 Space O( P + Ev + Ed )
