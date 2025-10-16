@@ -111,14 +111,18 @@ void Game::DrawMenu(){
 
 void Game::Input(){
     Vector2 mousePositon = GetMousePosition();
+    bool flag = false;
     //std::cout << mousePositon.x << " | " << mousePositon.y << "\n";
     if( IsMouseButtonPressed( MOUSE_BUTTON_LEFT ) ) {
         points->CreatePoint( mousePositon , constrains , RED , POINT_RADIUS );
+        flag = true;
     }
     if( IsMouseButtonPressed( MOUSE_BUTTON_RIGHT ) ) {
         points->ClickInputAction( MOUSE_BUTTON_RIGHT , mousePositon , selectedColor );
+        flag = true;
     }
     if( IsKeyPressed( KEY_ONE ) ) {
+        flag = true;
         size_t quantity, option;
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -173,14 +177,14 @@ void Game::Input(){
                 }
                 break;
         }
-        if( IsMouseButtonPressed( MOUSE_BUTTON_LEFT ) || IsMouseButtonPressed( MOUSE_BUTTON_RIGHT ) || IsKeyPressed( KEY_ONE ) ) {
-            sides = nullptr;
-            sides = new Sides();
-            std::string log = "";
-            convexHull = new ConvexHull( points->GetPoints() , sides , constrains , log );
-            outFile << log << std::endl;
-            convexHull = nullptr;
-        }
+    }
+    if( flag ) {
+        sides = nullptr;
+        sides = new Sides();
+        std::string log = "";
+        convexHull = new ConvexHull( points->GetPoints() , sides , constrains , log );
+        outFile << log << std::endl;
+        convexHull = nullptr;
     }
 } 
  
