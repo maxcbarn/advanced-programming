@@ -1,15 +1,19 @@
 #include "../lib/raylib.hpp"
 #include "../lib/Points.hpp"
+#include "../lib/Edges.hpp"
 
-void Input( Points * points );
+void Input( Points * points , Edges * edges );
 
-int main(int argc, char const *argv[])
+int main( int argc , char const *argv[] )
 {
     bool running = true;
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
     Points * points = new Points();
+    Edges *edges = new Edges();
 
     points->AddPoint( Vector2{ 400 , 400 } );
+    edges->AddEdge( Vector2{ 200 , 200 } , Vector2{ 200 , 400 } );
+
 
     InitWindow( windowSize.z , windowSize.w , " >w< :3 :D UwU " );
 
@@ -21,8 +25,9 @@ int main(int argc, char const *argv[])
         ClearBackground( BLACK );
         
         points->Draw();
+        edges->Draw();
 
-        Input( points);
+        Input( points , edges );
 
         EndDrawing();
     } 
@@ -30,7 +35,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void Input( Points * points ) {
+void Input( Points * points , Edges * edges ) {
     if ( !IsWindowFocused() ) {
         return;
     }
@@ -44,4 +49,5 @@ void Input( Points * points ) {
     }
 
     points->InputAction( button );
+    edges->InputAction( button );
 }
