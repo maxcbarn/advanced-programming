@@ -1,6 +1,8 @@
 #include "../lib/raylib.hpp"
 #include "../lib/Points.hpp"
 #include "../lib/Edges.hpp"
+#include "../lib/Polys.hpp"
+#include <vector>
 
 void Input( Points * points , Edges * edges );
 
@@ -10,10 +12,11 @@ int main( int argc , char const *argv[] )
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
     Points * points = new Points();
     Edges *edges = new Edges();
+    Polys * polys = new Polys();
 
     points->AddPoint( Vector2{ 400 , 400 } );
     edges->AddEdge( Vector2{ 200 , 200 } , Vector2{ 200 , 400 } );
-
+    polys->AddPoly( std::vector< Vector2 > { Vector2{ 600 , 600 } , Vector2{ 700 , 700 } , Vector2{ 700 , 600 } } , STD_POLY_COLOR );
 
     InitWindow( windowSize.z , windowSize.w , " >w< :3 :D UwU " );
 
@@ -24,8 +27,9 @@ int main( int argc , char const *argv[] )
         BeginDrawing( );  
         ClearBackground( BLACK );
         
-        points->Draw();
+        polys->Draw();
         edges->Draw();
+        points->Draw();
 
         Input( points , edges );
 

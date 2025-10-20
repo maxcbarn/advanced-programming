@@ -12,7 +12,7 @@ public:
     Polys();
     ~Polys();
     void Draw();
-    void AddPoly( std::vector< Vector2 > poly );
+    void AddPoly( std::vector< Vector2 > poly , Color color );
     size_t SearchPoly( Vector2 position );
     void RemovePoly( Vector2 position );
     void InputAction( MouseButton input );
