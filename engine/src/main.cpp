@@ -11,7 +11,7 @@ int main( int argc , char const *argv[] )
     bool running = true;
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
     Points * points = new Points();
-    Edges *edges = new Edges();
+    Edges * edges = new Edges();
     Polys * polys = new Polys();
 
     points->AddPoint( Vector2{ 400 , 400 } );
