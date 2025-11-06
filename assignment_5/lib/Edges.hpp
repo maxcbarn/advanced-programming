@@ -18,7 +18,7 @@ public:
     void RemoveEdge( Vector2 position );
     size_t SearchEdge( Vector2 position );
     void InputAction( MouseButton mouseButton );
-    void Draw();
+    void Draw( Color color );
 };
 
 #endif

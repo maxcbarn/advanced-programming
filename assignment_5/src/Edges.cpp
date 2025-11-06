@@ -51,8 +51,8 @@ void Edges::InputAction( MouseButton mouseButton ) {
     }
 }
 
-void Edges::Draw() {
+void Edges::Draw( Color color ) {
     for ( size_t index = 0 ; index < edges.size() ; index++ ) {
-        DrawLineEx( edges.at( index ).first , edges.at( index ).second , EDGE_WIDTH , EDGE_COLOR );
+        DrawLineEx( edges.at( index ).first , edges.at( index ).second , EDGE_WIDTH , color );
     }
 }

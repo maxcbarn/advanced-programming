@@ -15,8 +15,6 @@ int main( int argc , char const *argv[] ) {
     bool running = true;
     std::vector< Vector2 > polyAux;
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
-    Points * points = new Points();
-    Edges * edges = new Edges();
     Interface * interface = new Interface( 15 , 15 , windowSize.z  , windowSize.w  );
 
     InitWindow( windowSize.z , windowSize.w , " >w< :3 :D UwU " );
@@ -32,9 +30,6 @@ int main( int argc , char const *argv[] ) {
 
         BeginDrawing( );  
         ClearBackground( BLACK );
-
-        edges->Draw();
-        points->Draw();
         interface->DrawInterface();
 
         EndDrawing();

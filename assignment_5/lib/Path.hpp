@@ -11,10 +11,12 @@ class Path
 private:
     Edges * path;
 public:
+    std::vector< size_t > pathRowsColumns;
     std::pair< size_t , size_t> start , end;
-    Path( std::pair< size_t , size_t> start , std::pair< size_t , size_t > end , Edges * path );
+    
+    Path( std::pair< size_t , size_t> start , std::pair< size_t , size_t > end , std::pair< Edges * , std::vector< size_t > > path  );
     ~Path();
-    void SetPath( Edges * path );
+    void SetPath( std::pair< Edges * , std::vector< size_t > > path );
     void Draw();
 };
 
