@@ -58,14 +58,14 @@ void Interface::DrawInterface() {
 
 void Interface::Input() {
     auto findRow = [this]( Vector2 mousePosition ) {
-        if( std::abs( mousePosition.y / cellRowSize ) > rows ) {
+        if( std::abs( mousePosition.y / cellRowSize ) >= rows ) {
             return ( float ) rows - 1;
         } else {
             return std::abs( mousePosition.y / cellRowSize );
         }
     };
     auto findColumn = [this]( Vector2 mousePosition ) {
-        if( std::abs( mousePosition.x / cellColumnSize ) > columns ) {
+        if( std::abs( mousePosition.x / cellColumnSize ) >= columns ) {
             return ( float ) columns - 1;
         } else {
             return std::abs( mousePosition.x / cellColumnSize );
