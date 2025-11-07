@@ -254,7 +254,12 @@ void Interface::GenerateRandomPath( size_t quantity ) {
         auto end = pick();
         grid->SetCellStatus(end.first, end.second, END);
 
-        paths.push_back(new Path(start, end, FindPath(start, end)));
+        #ifdef LOG
+            paths.push_back(new Path(start, end, std::make_pair( nullptr , std::vector< size_t >( ) ) ));
+        #endif
+        #ifndef LOG
+            paths.push_back(new Path(start, end, FindPath(start, end)));
+        #endif
     }      
 }
 
@@ -262,7 +267,7 @@ void Interface::GenerateRandomObstacle( size_t quantity ) {
     size_t cells = rows * columns;
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, cells);
+    std::uniform_int_distribution<> distrib(0, cells - 1);
 
     std::vector< bool > isUsed = std::vector< bool >( cells );
 
@@ -293,7 +298,9 @@ double Interface::MeanPathDistance() {
     std::vector< size_t > pathDist;
     for ( size_t i = 0 ; i < paths.size() ; i++ )
     {
-        pathDist.push_back( paths[ i ]->pathRowsColumns.size() - 1 );
+        if( paths[ i ]->pathRowsColumns.size() > 0 ) {
+            pathDist.push_back( paths[ i ]->pathRowsColumns.size() - 1 );
+        }
     }
     double sum = 0;
     for ( size_t i = 0 ; i < pathDist.size() ; i++ ) {
@@ -313,10 +320,12 @@ size_t Interface::QuantityOfPathNotFound() {
 }
 
 double Interface::TimeToCalculatePath() {
+    std::chrono::duration<double, std::milli> computeTime;
     auto start = std::chrono::high_resolution_clock::now();
     for ( size_t i = 0 ; i < paths.size() ; i++ ) {
-        FindPath( paths[i]->start , paths[i]->end );
+        paths[i]->SetPath( FindPath( paths[i]->start , paths[i]->end ) );
     }
     auto end = std::chrono::high_resolution_clock::now();
-    return ( end - start ).count();
+    computeTime = end - start;
+    return computeTime.count();
 }
