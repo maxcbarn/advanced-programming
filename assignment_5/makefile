@@ -1,14 +1,21 @@
 CXX = g++
-CXXFLAGS = -Wall -DDEBUG -g -lraylib
+CXXFLAGS = -Wall
+LDFLAGS  = -lraylib
 OBJDIR := obj
 TARGET := app
-SRCS := $(wildcard lib/*.hpp) $(wildcard src/*.cpp)
-OBJS := $(patsubst src/%.cpp lib/%.hpp,$(OBJDIR)/%.o,$(SRCS))
+SRCS := $(wildcard src/*.cpp)
+OBJS := $(patsubst src/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS)
+	
+debug: $(OBJS)
+	$(CXX) $(CXXFLAGS) -DDEBUG -g -o app $(OBJS)
+	
+log: $(OBJS)
+	$(CXX) $(CXXFLAGS) -DLOG -o app $(OBJS)
 	
 $(OBJDIR)/%.o: src/%.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@

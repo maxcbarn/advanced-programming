@@ -21,6 +21,8 @@ Interface::Interface( size_t rows , size_t columns , size_t width , size_t heigh
 
 Interface::~Interface() {
     delete menuEdges;
+    delete grid;
+    paths.clear();
 }
 
 void Interface::DrawInterface() {
@@ -71,6 +73,20 @@ void Interface::Input() {
             return std::abs( mousePosition.x / cellColumnSize );
         }
     };
+
+    if( IsKeyPressed( KEY_ONE ) ) {
+        std::cout << "Type the Number of Paths: ";
+        size_t quantity;
+        std::cin >> quantity;
+        GenerateRandomPath( quantity );
+    }
+    if( IsKeyPressed( KEY_TWO ) ) {
+        std::cout << "Type the Number of Obstacle: ";
+        size_t quantity;
+        std::cin >> quantity;
+        GenerateRandomObstacle( quantity );
+    }
+
     if( IsMouseButtonDown( MOUSE_BUTTON_LEFT ) ) {
         grid->SetCellStatus( findRow( GetMousePosition() ) , findColumn( GetMousePosition() ) , OBSTACLE );
         CheckDeletion( findRow( GetMousePosition() ) , findColumn( GetMousePosition() ) , OBSTACLE );
@@ -205,4 +221,102 @@ std::pair< Edges * , std::vector< size_t > > Interface::FindPath( std::pair< siz
     }
 
     return std::make_pair( path , pathRowsColumns ); 
+}
+
+void Interface::GenerateRandomPath( size_t quantity ) {
+    size_t cells = rows * columns;
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<size_t> distrib(0, cells - 1);
+
+    std::vector< bool > isUsed = std::vector< bool >( cells , false );
+
+    for ( size_t row = 0 ; row < rows ; row++ ) {
+        for ( size_t column = 0 ; column < columns ; column++ ) {
+            if( grid->GetCellStatus( row , column ) != EMPTY ) {
+                isUsed[ rows * row + column ] = true;
+            }
+        }        
+    }
+
+    std::pair< size_t , size_t > start , end;
+
+    for ( size_t index = 0 ; index < quantity && index < cells ; index++ ) {
+        auto pick = [&]() {
+            size_t n;
+            do { n = distrib(gen); } while (isUsed[n]);
+            isUsed[n] = true;
+            return std::make_pair(n / columns, n % columns);
+        };
+
+        auto start = pick();
+        grid->SetCellStatus(start.first, start.second, START);
+
+        auto end = pick();
+        grid->SetCellStatus(end.first, end.second, END);
+
+        paths.push_back(new Path(start, end, FindPath(start, end)));
+    }      
+}
+
+void Interface::GenerateRandomObstacle( size_t quantity ) {
+    size_t cells = rows * columns;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, cells);
+
+    std::vector< bool > isUsed = std::vector< bool >( cells );
+
+    for ( size_t row = 0 ; row < rows ; row++ ) {
+        for ( size_t column = 0 ; column < columns ; column++ ) {
+            if( grid->GetCellStatus( row , column ) != EMPTY ) {
+                isUsed[ rows * row + column ] = true;
+            }
+        }        
+    }
+
+    size_t row, column;
+    int number;
+
+    for ( size_t index = 0 ; index < quantity && index < cells ; index++ ) {
+        number = distrib(gen);
+        while( isUsed[ number ] ) {
+            number = distrib( gen );
+        }
+        row = number / rows;
+        column = number % rows; 
+        grid->SetCellStatus( row , column , OBSTACLE );
+        isUsed[ number ] = true;
+    }   
+}
+
+double Interface::MeanPathDistance() {
+    std::vector< size_t > pathDist;
+    for ( size_t i = 0 ; i < paths.size() ; i++ )
+    {
+        pathDist.push_back( paths[ i ]->pathRowsColumns.size() - 1 );
+    }
+    double sum = 0;
+    for ( size_t i = 0 ; i < pathDist.size() ; i++ ) {
+        sum += pathDist[i];
+    }
+    return sum / pathDist.size();
+}
+
+size_t Interface::QuantityOfPathNotFound() {
+    size_t sum = 0;
+    for ( size_t i = 0 ; i < paths.size() ; i++ ) {
+        if( paths[i]->pathRowsColumns.size() == 0 ) {
+            sum++;
+        }
+    }
+    return sum;
+}
+
+double Interface::TimeToCalculatePath() {
+    auto start = std::chrono::high_resolution_clock::now();
+    for ( size_t i = 0 ; i < paths.size() ; i++ ) {
+        FindPath( paths[i]->start , paths[i]->end );
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    return ( end - start ).count();
 }

@@ -4,8 +4,8 @@
 #include "../lib/raylib.hpp"
 #include "../lib/Points.hpp"
 #include "../lib/Edges.hpp"
-#include <vector>
 #include "../lib/Settings.hpp"
+#include <vector>
 
 class Grid
 {
