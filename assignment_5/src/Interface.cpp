@@ -294,6 +294,8 @@ void Interface::GenerateRandomObstacle( size_t quantity ) {
     }   
 }
 
+#ifdef LOG
+
 double Interface::MeanPathDistance() {
     std::vector< size_t > pathDist;
     for ( size_t i = 0 ; i < paths.size() ; i++ )
@@ -329,3 +331,5 @@ double Interface::TimeToCalculatePath() {
     computeTime = end - start;
     return computeTime.count();
 }
+
+#endif

@@ -25,8 +25,8 @@ def ObstacleXTime( data , df40 ):
     data = data[ data['PathQuantity'] == 20 ]
     data = data.groupby('PathQuantity')['ExecutionTime'].mean().reset_index()
     
-    plt.plot(df40['PathQuantity'], df40['ExecutionTime'], label='Without Obstacle')
     plt.plot(data['PathQuantity'], data['ExecutionTime'] ,label='With Obstacle')
+    plt.plot(df40['PathQuantity'], df40['ExecutionTime'], label='Without Obstacle')
     
     plt.xlabel("Quantity of Paths")
     plt.ylabel("Time To Compute (ms)")

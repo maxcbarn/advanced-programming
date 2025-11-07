@@ -33,9 +33,11 @@ public:
     void Recalculate();
     void GenerateRandomPath( size_t quantity );
     void GenerateRandomObstacle( size_t quantity );
+    #ifdef LOG
     double MeanPathDistance();
     double TimeToCalculatePath();
     size_t QuantityOfPathNotFound();
+    #endif
 };
 
 #endif

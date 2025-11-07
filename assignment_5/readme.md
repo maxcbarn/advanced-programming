@@ -1,0 +1,3 @@
+# Grid Engine For Path Findingc
+
+In this assingment i made a engine for future development on path finding, to compile just do a make command and execute the app file, if you press the left mouse button you can put obstacles, the right mouse button you empty that cell, and with a first click in the middle button you put the start of a path and with the second click the end, if you press one in your keybord it will prompt you in the command line for the number of paths that you want to generate random.
