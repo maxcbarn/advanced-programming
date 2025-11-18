@@ -21,7 +21,7 @@ void ExactPath::Draw( float cellRowSize , float cellColumnSize ) {
 }
 
 void ExactPath::Compute( std::vector< std::vector< Cell * > > grid ) {
-    Dijkstra * dijkstra = new Dijkstra( start , end , grid );
-    pathRowsColumns = dijkstra->GetPath();
-    delete dijkstra;
+    PathFinding * algorithPathFinding = pathFindingFactory->Create( EXACT );
+    pathRowsColumns = algorithPathFinding->FindPath( start , end , grid );
+    delete algorithPathFinding;
 }

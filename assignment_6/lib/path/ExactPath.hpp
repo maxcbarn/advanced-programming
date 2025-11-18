@@ -11,8 +11,8 @@
 
 class ExactPath : Path
 {
-private:
-    
+protected:
+    using Path::pathFindingFactory;
 public:
     ExactPath( std::pair< size_t , size_t> start , std::pair< size_t , size_t > end );
     ~ExactPath();

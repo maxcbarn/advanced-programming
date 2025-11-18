@@ -4,6 +4,7 @@
 #include "../../lib/raylib.hpp"
 #include "../../lib/Edges.hpp"
 #include "../../lib/grid/Cell.hpp"
+#include "../../lib/algorithm/PathFindingFactory.hpp"
 #include <tuple>
 #include <cstddef>
 #include <vector>
@@ -13,6 +14,7 @@ class Path
 protected:
     std::pair< size_t , size_t> start , end;
     std::vector< size_t > pathRowsColumns;
+    inline static PathFindingFactory * pathFindingFactory = new PathFindingFactory();
 public:
     Path( std::pair< size_t , size_t> start , std::pair< size_t , size_t > end );
     virtual ~Path() = default;

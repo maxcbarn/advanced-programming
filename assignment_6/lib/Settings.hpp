@@ -29,6 +29,10 @@ enum INPUT_ACTION {
     NONE,
 };
 
+enum PATH_TYPE {
+    EXACT,
+};
+
 typedef struct IntVector2 {
     size_t x;
     size_t y;

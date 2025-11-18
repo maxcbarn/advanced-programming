@@ -1,6 +1,10 @@
 #include "../../lib/algorithm/Dijkstra.hpp"
 
-Dijkstra::Dijkstra( std::pair< size_t , size_t> start , std::pair< size_t , size_t> end , std::vector< std::vector< Cell * > > grid ) {
+Dijkstra::Dijkstra() {
+
+}
+
+std::vector< size_t > Dijkstra::FindPath( std::pair< size_t , size_t> start , std::pair< size_t , size_t> end , std::vector< std::vector< Cell * > > grid ) {
     size_t rows = grid.size() , columns = grid.at( 0 ).size() ;
     std::vector< size_t > pathRowsColumns;
     std::vector< std::vector < int > > dist =  std::vector< std::vector < int > >( rows , std::vector < int >( columns , __INT_MAX__ ) );
@@ -69,14 +73,6 @@ Dijkstra::Dijkstra( std::pair< size_t , size_t> start , std::pair< size_t , size
         pathRowsColumns.push_back( row );
         pathRowsColumns.push_back( column );
     }
-
-    this->path = pathRowsColumns; 
-}
-
-Dijkstra::~Dijkstra() {
-    path.clear();
-}
-
-std::vector< size_t > Dijkstra::GetPath() {
-    return path;
+ 
+    return pathRowsColumns;
 }

@@ -3,17 +3,17 @@
 
 #include "../../lib/raylib.hpp"
 #include "../../lib/grid/Cell.hpp"
+#include "../../lib/algorithm/PathFinding.hpp"
 #include <tuple> 
 #include <vector>
 
-class Dijkstra
+class Dijkstra : PathFinding
 {
-private:
-    std::vector< size_t > path;
+protected:
+
 public:
-    Dijkstra( std::pair< size_t , size_t> start , std::pair< size_t , size_t> end , std::vector< std::vector< Cell * > > grid );
-    std::vector< size_t > GetPath();
-    ~Dijkstra();
+    Dijkstra();
+    std::vector< size_t > FindPath( std::pair< size_t , size_t> start , std::pair< size_t , size_t> end , std::vector< std::vector< Cell * > > grid ) override ;
 };
 
 #endif
