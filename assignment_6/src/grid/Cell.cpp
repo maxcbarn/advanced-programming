@@ -1,8 +1,7 @@
 #include "../../lib/grid/Cell.hpp"
 
 
-Cell:: Cell( Vector2 cellSize , IntVector2 position ){
-    this->cellSize = cellSize;
+Cell:: Cell( IntVector2 position ){
     this->position = position;
     this->blocksPath = false;
 };

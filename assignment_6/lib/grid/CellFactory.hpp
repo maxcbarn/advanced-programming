@@ -14,7 +14,7 @@ class CellFactory
 private:
     Vector2 cellSize;
 public:
-    CellFactory( Vector2 cellSize );
+    CellFactory();
     ~CellFactory();
     Cell * CreateCell( CELL_STATUS cell , IntVector2 position );
 };

@@ -10,7 +10,7 @@ class End : Cell
 private:
 
 public:
-    End( Vector2 cellSize , IntVector2 position );
+    End( IntVector2 position );
     ~End();
     void Draw() override;
 };

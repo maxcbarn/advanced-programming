@@ -10,7 +10,7 @@ class Obstacle : Cell
 protected:
     bool blocksPath = true;
 public:
-    Obstacle( Vector2 cellSize , IntVector2 position );
+    Obstacle( IntVector2 position );
     ~Obstacle();
     void Draw() override;
 };

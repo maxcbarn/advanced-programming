@@ -6,7 +6,11 @@ Grid::Grid( size_t rows, size_t columns , Vector4 windowSize ) {
     this->cellColumnSize = ( float )windowSize.z / ( float )rows;
     this->cellRowSize = ( float )windowSize.w / ( float )columns;
 
+    Cell::cellSize = Vector2{ cellRowSize , cellColumnSize };
+
     gridDividers = new Edges();
+    pathFactory = new PathFactory();
+    cellFactory = new CellFactory();
 
     for ( size_t index = 0 ; index <= rows ; index++ ) {
         gridDividers->AddEdge( Vector2{ 0 , index * cellRowSize } , Vector2{ ( float )windowSize.z , index * cellRowSize }  );
@@ -18,15 +22,13 @@ Grid::Grid( size_t rows, size_t columns , Vector4 windowSize ) {
     for ( size_t row = 0 ; row < rows ; row++ ) {
         std::vector< Cell * > aux;
         for ( size_t column = 0 ; column < columns ; column++ ) {
-            aux.push_back( ( Cell * ) new Empty( Vector2{ cellRowSize ,cellColumnSize } , IntVector2{ 0 , 0 } ) );
+            aux.push_back( cellFactory->CreateCell( EMPTY , IntVector2{ row , column } ) );
         }
         grid.push_back( aux );
         aux.clear();
     }
     
 
-    pathFactory = new PathFactory();
-    cellFactory = new CellFactory( Vector2{ cellRowSize , cellColumnSize } );
 }
 
 Grid::~Grid() {

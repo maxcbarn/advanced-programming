@@ -10,7 +10,7 @@ class Empty : Cell
 private:
 
 public:
-    Empty( Vector2 cellSize , IntVector2 position );
+    Empty( IntVector2 position );
     ~Empty();
     using Cell::Draw;
 };

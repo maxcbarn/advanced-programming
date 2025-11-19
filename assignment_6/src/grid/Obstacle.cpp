@@ -1,7 +1,7 @@
 #include "../../lib/grid/Obstacle.hpp"
 
 
-Obstacle::Obstacle( Vector2 cellSize , IntVector2 position ) : Cell( cellSize , position ) {
+Obstacle::Obstacle( IntVector2 position ) : Cell( position ) {
     Cell::blocksPath = true;
 }
 

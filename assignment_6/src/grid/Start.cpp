@@ -1,7 +1,7 @@
 #include "../../lib/grid/Start.hpp"
 
 
-Start::Start( Vector2 cellSize , IntVector2 position ) : Cell( cellSize , position ) {
+Start::Start( IntVector2 position ) : Cell( position ) {
     
 }
 

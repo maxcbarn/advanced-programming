@@ -1,7 +1,7 @@
 #include "../../lib/grid/End.hpp"
 
 
-End::End( Vector2 cellSize , IntVector2 position ) : Cell( cellSize , position ) {
+End::End( IntVector2 position ) : Cell( position ) {
     
 }
 

@@ -10,7 +10,8 @@ class Start : Cell
 private:
 
 public:
-    Start( Vector2 cellSize , IntVector2 position );
+    using Cell::cellSize;
+    Start( IntVector2 position );
     ~Start();
     void Draw() override;
 };
