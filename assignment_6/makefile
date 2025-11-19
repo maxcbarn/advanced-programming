@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -Werror -Wextra -Wpedantic
 LDFLAGS  = -lraylib -lm
 OBJDIR := obj
 TARGET := app

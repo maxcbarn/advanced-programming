@@ -10,7 +10,7 @@
 #include <random>
 #include <cmath>
 
-int main( int argc , char const *argv[] ) {
+int main() {
     bool running = true;
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
     #ifdef LOG
