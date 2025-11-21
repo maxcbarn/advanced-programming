@@ -1,0 +1,24 @@
+#ifndef DIJKSTRA_HPP
+#define DIJKSTRA_HPP
+
+#include "raylib.hpp"
+#include "grid/Cell.hpp"
+#include <tuple> 
+#include <vector>
+#include "Settings.hpp"
+#include "agent/Agent.hpp"
+#include "obstacle/Obstacle.hpp"
+#include <algorithm>
+
+class Dijkstra
+{
+protected:
+    Dijkstra();
+    inline static Dijkstra * dijkstra = nullptr;
+public:
+    ~Dijkstra();
+    static Dijkstra * GetDijkstra();
+    std::vector< Size_t2 > FindPath( Size_t2 start , Size_t2 end );
+};
+
+#endif
