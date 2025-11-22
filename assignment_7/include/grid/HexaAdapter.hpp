@@ -6,11 +6,14 @@
 #include "Cell.hpp"
 #include <vector>
 #include "grid/GridAdapter.hpp"
+#include <cmath>
+#include <iostream>
 
 class HexaAdapter : GridAdapter
 {
 private:
-    
+    float width, height, offsetWidth, offsetHeight, centerOffset;
+    std::vector< std::vector < Vector2 > > centroids;
 public:
     HexaAdapter(  size_t rows , size_t columns , Vector4 windowSize  );
     ~HexaAdapter();

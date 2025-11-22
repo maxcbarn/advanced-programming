@@ -19,8 +19,7 @@ GridAdapter * GridAdapterFactory::GetAdapter() {
     switch (typeGrid)
     {
     case HEXA:
-        /* return ( GridAdapter * )new HexaAdapter( rows , columns , windowSize ); */
-        return nullptr;
+        return ( GridAdapter * )new HexaAdapter( rows , columns , windowSize );
         break;
     case SQUARE:
         return ( GridAdapter * )new SquareAdapter( rows , columns , windowSize );

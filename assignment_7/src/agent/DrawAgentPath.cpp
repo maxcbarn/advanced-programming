@@ -22,4 +22,5 @@ void DrawAgentPath::Draw( Size_t2 start , Size_t2 end , std::vector< Size_t2 > p
     {
         drawAgentDecorator->Draw( start , end , path );
     }
+    delete gridAdapter;
 }

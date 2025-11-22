@@ -17,7 +17,24 @@ int main() {
     bool running = true;
     Vector4 windowSize = Vector4{ 0 , 0 , 800 , 800 };
 
-    GridAdapterFactory::Initialize( SQUARE , 15 , 15 , windowSize );
+    int option;
+    TYPE_GRID typeGrid;
+    std::cout << "1 - Square | 2 - Hexa" << std::endl;
+    std::cin >> option;
+
+    switch (option)
+    {
+        case 1:
+            typeGrid = SQUARE;
+            break;
+        case 2:
+            typeGrid = HEXA;
+            break;
+        default:
+            return 1;
+    }
+
+    GridAdapterFactory::Initialize( typeGrid , 15 , 15 , windowSize );
     ObstacleFactory::GetObstacleFactory();
     Grid::Initialize( 15 , 15 );
 

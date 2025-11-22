@@ -91,6 +91,8 @@ std::vector< Size_t2 > Dijkstra::FindPath( Size_t2 start , Size_t2 end ) {
         }
     }
 
+    delete gridAdapter;
+
     if (dist[end.x][end.y] != INT_MAX) {
 
         Size_t2 aux = end;

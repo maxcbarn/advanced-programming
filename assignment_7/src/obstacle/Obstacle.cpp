@@ -26,4 +26,5 @@ void Obstacle::Draw() {
     Vector2 size = Vector2{ radius * 2 , radius * 2 };
 
     DrawRectangleV( origin , size , color );
+    delete gridAdapter;
 }

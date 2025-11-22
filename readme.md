@@ -10,7 +10,7 @@ Hello this is the repo for the advanced programing class that i took at universi
 | 4 - Minkowski Addition | 26/10/2025 - 16:45 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_4) | [link](https://drive.google.com/file/d/1lgw-yWjrJRLHZk9uhHIegP_u4A_tFfZn/view?usp=sharing) | Yes
 | 5 Grid Engine For Path Finding | 07/11/2025 - 20:10 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_5) | [link](https://drive.google.com/file/d/1BkiAPyXDz_TnLx6Th4CF397R52W844dV/view?usp=sharing) | Yes
 | 6 Design Pattern Factory | 13/11/2025 - 20:50 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_6) | No video | Yes
-| 7 | | | |
+ 7 Design Pattern Singleton, Adapter and Decorator | 22/11/2025 - 00:56 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_7) | No video | Yes
 | 8 | | | |
 | 9 | | | |
 | 10 | | | |
