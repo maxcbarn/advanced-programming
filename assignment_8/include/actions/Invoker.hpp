@@ -4,8 +4,9 @@
 #include "actions/Command.hpp"
 #include <deque>
 #include "grid/GridAdapter.hpp"
+#include "common/Subscriber.hpp"
 
-class Invoker
+class Invoker : Subscriber
 {
 private:
     Invoker();
@@ -16,7 +17,7 @@ public:
     ~Invoker();
     static Invoker * GetInvoker();
     void Input();
-    Command * GetCommand();
+    void Notification() override;
 };
 
 #endif

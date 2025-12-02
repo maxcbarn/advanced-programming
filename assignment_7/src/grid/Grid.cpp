@@ -32,12 +32,11 @@ void Grid::Initialize( size_t rows , size_t columns ) {
 }
 
 void Grid::Draw() {
-    for ( size_t row = 0 ; row < rows ; row++ ) {
-        for ( size_t column = 0 ; column < columns ; column++ ) {
-            if( grid[row][column] != nullptr ) {
-                grid[row][column]->Draw();
-            }
-        }    
+    for ( size_t index = 0 ; index < obstacles.size() ; index++ ) {
+        obstacles[index]->Draw();
+    }
+    for ( size_t index = 0 ; index < agents.size() ; index++ ) {
+        agents[index]->Draw();
     }
 }
 

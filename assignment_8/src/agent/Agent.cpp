@@ -37,7 +37,28 @@ void Agent::Draw() {
 }
 
 void Agent::CalculatePath() {
-    path = Dijkstra::GetDijkstra()->GetDijkstra()->FindPath( start , end );
+    auto compare = [] ( Size_t2 a , Size_t2 b ) {
+        return a.x == b.x && a.y == b.y;
+    };
+    std::vector< Size_t2 > newPath = Dijkstra::GetDijkstra()->GetDijkstra()->FindPath( start , end );
+    if( path.size() == 0 ) {
+        path = newPath;
+        return;
+    }
+    if( newPath.size() != path.size() ) {
+        path = newPath;
+        position = start;
+        step = 0;
+    } else {
+        for ( size_t index = 0 ; index < path.size() ; index++ ) {
+            if( !compare( newPath[index] , path[index] ) ) {
+                path = newPath;
+                position = start;
+                step = 0;
+                break;
+            }
+        }
+    }
 }
 
 Size_t2 Agent::GetEnd() {

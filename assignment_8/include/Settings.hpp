@@ -21,6 +21,14 @@ enum INPUT_ACTION {
     NONE,
 };
 
+enum INPUT {
+    LEFT_CLICK,
+    RIGHT_CLICK,
+    ONE,
+    TWO,
+    THREE,
+};
+
 enum OBSTACLE_TYPE {
     WALL,
     MUD,

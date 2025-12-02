@@ -14,6 +14,7 @@
 #include <random>
 #include <cmath>
 #include "actions/Invoker.hpp"
+#include "input/InputPublisher.hpp"
 
 int main() {
     bool running = true;
@@ -34,7 +35,7 @@ int main() {
             running = false;
         }
         if( IsWindowFocused() ) {
-            Invoker::GetInvoker()->Input();
+            InputPublisher::GetInputPublisher()->Input();
         }
 
         BeginDrawing( );  
