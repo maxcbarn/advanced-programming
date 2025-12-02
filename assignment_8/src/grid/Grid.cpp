@@ -73,9 +73,9 @@ Cell * Grid::Remove( Size_t2 position ) {
         }
     }
     for ( size_t index = 0 ; index < agents.size() ; index++ ) {
-        if( ( agents[index]->GetPosition().x == position.x && agents[index]->GetPosition().y == position.y ) || ( agents[index]->GetEnd().x == position.x && agents[index]->GetEnd().y == position.y ) ) {
-            cell = grid[agents[index]->GetPosition().x][agents[index]->GetPosition().y];
-            grid[agents[index]->GetPosition().x][agents[index]->GetPosition().y] = nullptr;
+        if( ( agents[index]->GetStart().x == position.x && agents[index]->GetStart().y == position.y ) || ( agents[index]->GetEnd().x == position.x && agents[index]->GetEnd().y == position.y ) ) {
+            cell = grid[agents[index]->GetStart().x][agents[index]->GetStart().y];
+            grid[agents[index]->GetStart().x][agents[index]->GetStart().y] = nullptr;
             agents.erase( agents.begin() + index );  
             return cell;
         }
