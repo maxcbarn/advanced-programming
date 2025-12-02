@@ -1,0 +1,48 @@
+#ifndef GRID_HPP
+#define GRID_HPP
+
+#include "raylib.hpp"
+#include "Settings.hpp"
+#include "grid/Cell.hpp"
+/* #include "agent/Agent.hpp" */
+#include <vector>
+#include <tuple>
+#include <iostream>
+#include <typeinfo>
+#include <algorithm>
+#include "grid/GridAdapter.hpp"
+#include "grid/GridAdapterFactory.hpp"
+#include "obstacle/ObstacleFactory.hpp"
+
+class Agent;
+
+class Grid
+{
+protected:
+    std::vector< std::vector< Cell * > > grid;
+    std::vector< Agent * > agents;
+    std::vector< Obstacle * > obstacles; 
+    size_t rows = 0, columns = 0;
+    inline static Grid * gridptr = nullptr;
+    Grid( size_t rows, size_t columns );
+    GridAdapter * gridAdapter;
+public:
+    static Grid * GetGrid();
+    static void Initialize( size_t rows , size_t columns );
+    ~Grid();
+    void Draw();
+    std::vector< std::vector < Cell * > > GetBoard();
+    std::vector< Obstacle * > GetObstacles();
+    void AddObstacle( OBSTACLE_TYPE type , Size_t2 position );
+    void AddAgent( Size_t2 position );
+    Cell * Remove( Size_t2 position );
+    void RecalculateAgents();
+    void SetAgentEnd( Size_t2 position );
+    bool GetEndAgentState();
+    void MoveAgents();
+};
+
+
+
+
+#endif
