@@ -58,8 +58,12 @@ void Grid::AddObstacle( OBSTACLE_TYPE type , Size_t2 position ) {
     RecalculateAgents();
 }
 
+Cell * Grid::GetCell( Size_t2 position ) {
+    return grid[position.x][position.y];
+}
+
 void Grid::AddAgent( Size_t2 position ) {    
-    agents.push_back( new Agent( position , position , 60 , gridAdapter->GetRadiusOfCell() / 2 , GREEN ) );
+    agents.push_back( new Agent( position , position , 60 , gridAdapter->GetRadiusOfCell() / 1.25 , GREEN ) );
     grid[position.x][position.y] = ( Cell* )agents.back();
     
 }

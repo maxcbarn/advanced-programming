@@ -31,6 +31,7 @@ public:
     virtual bool IsValidMousePosition( Vector2 position );
     virtual void MoveAgents();
     virtual void ResetAgents();
+    virtual Cell * GetCell( Size_t2 position );
 };
 
 #endif

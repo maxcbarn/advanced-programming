@@ -28,6 +28,7 @@ public:
     using GridAdapter::GetEndAgentState;
     using GridAdapter::MoveAgents;
     using GridAdapter::ResetAgents;
+    using GridAdapter::GetCell;
     Size_t2 GetGridPosition( Vector2 position ) override;
     void FillCell( Color color , Size_t2 position ) override;
     bool IsValidMousePosition( Vector2 position ) override;

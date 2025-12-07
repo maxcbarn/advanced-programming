@@ -70,3 +70,7 @@ void GridAdapter::MoveAgents() {
 void GridAdapter::ResetAgents() {
     Grid::GetGrid()->ResetAgents();
 }
+
+Cell * GridAdapter::GetCell( Size_t2 position ) {
+    return Grid::GetGrid()->GetCell( position );
+}

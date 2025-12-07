@@ -43,6 +43,7 @@ public:
     void MoveAgents();
     void DrawAgents();
     void ResetAgents();
+    Cell * GetCell( Size_t2 position );
 };
 
 

@@ -1,7 +1,7 @@
 #include "agent/ActionDecorator.hpp"
 
 ActionDecorator::ActionDecorator( ActionDecorator * actionDecorator ) {
-    AddEnd( actionDecorator );
+    this->actionDecorator = actionDecorator;
 }
 
 void ActionDecorator::AddEnd( ActionDecorator * actionDecorator ) {

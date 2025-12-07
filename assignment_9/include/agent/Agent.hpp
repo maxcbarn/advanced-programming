@@ -19,6 +19,7 @@ protected:
     GridAdapter * gridAdapter;
     bool endState;
     Color color;
+    float radius;
 public:
     size_t tSpline;
     Agent( Size_t2 position , Size_t2 start , float velocity , float radius , Color color );
@@ -38,6 +39,7 @@ public:
     using Cell::GetCollisor;
     bool ReachedDestination();
     void Reset();
+    float GetRadius();
 };
 
 #endif

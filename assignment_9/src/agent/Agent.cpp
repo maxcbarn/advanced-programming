@@ -4,6 +4,7 @@
 #include "agent/ActionMove.hpp"
 #include "grid/GridAdapterFactory.hpp"
 #include "grid/GridAdapter.hpp"
+#include "agent/ActionFindCollisions.hpp"
 
 Agent::Agent( Size_t2 position , Size_t2 start , float velocity , float radius , Color color ) : Cell( position , nullptr , nullptr ) {
     GridAdapterFactory * gridAdapterFactory = GridAdapterFactory::GetGridAdapterFactory();
@@ -13,12 +14,14 @@ Agent::Agent( Size_t2 position , Size_t2 start , float velocity , float radius ,
     endState = false;
     GridAdapter * adpater = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter();
     Dynamic * dynamic = new Dynamic( adpater->GetCentroidOfCell( position ) , velocity);
-    Collisor * collisor = new Collisor( INT_MAX , false , radius );
+    Collisor * collisor = new Collisor( INT_MAX , false , radius * 2.10 );
     delete adpater;
     tSpline = 0;
     this->dynamic = dynamic;
     this->collisor = collisor;
     this->actionDecorator = ( ActionDecorator * ) new ActionMove( nullptr );
+    this->actionDecorator = ( ActionDecorator * ) new ActionFindCollisions( this->actionDecorator );
+    this->radius = radius;
 }
 
 Agent::~Agent() {
@@ -60,7 +63,6 @@ void Agent::Draw() {
 
 void Agent::DrawAgent() {
     Vector2 centroid = dynamic->GetDynamicPosition();
-    float radius = collisor->GetRadius();
     
     Vector2 origin = Vector2{ centroid.x , centroid.y };
 
@@ -148,4 +150,8 @@ void Agent::Tick() {
         return;
     }
     actionDecorator->Execute( this );
+}
+
+float Agent::GetRadius() {
+    return radius;
 }
