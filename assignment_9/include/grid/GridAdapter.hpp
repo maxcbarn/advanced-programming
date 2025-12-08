@@ -5,6 +5,7 @@
 #include "Settings.hpp"
 #include "Cell.hpp"
 #include <vector>
+#include <deque>
 
 
 class GridAdapter
@@ -31,7 +32,7 @@ public:
     virtual bool IsValidMousePosition( Vector2 position );
     virtual void MoveAgents();
     virtual void ResetAgents();
-    virtual Cell * GetCell( Size_t2 position );
+    virtual std::deque< Cell * > GetCell( Size_t2 position );
 };
 
 #endif

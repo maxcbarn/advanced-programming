@@ -5,9 +5,9 @@ Grid::Grid( size_t rows , size_t columns ) {
     this->rows = rows;
     this->columns = columns;
     for ( size_t row = 0 ; row < rows ; row++ ) {
-        std::vector< Cell * > aux;
+        std::vector< std::deque< Cell * > > aux;
         for ( size_t column = 0 ; column < columns ; column++ ) {
-            aux.push_back( nullptr );
+            aux.push_back( std::deque< Cell * >(0) );
         }   
         grid.push_back( aux );
         aux.clear();
@@ -46,25 +46,28 @@ void Grid::DrawAgents() {
     }
 }
 
-std::vector< std::vector < Cell * > > Grid::GetBoard() {
+std::vector< std::vector < std::deque< Cell * > > > Grid::GetBoard() {
     return grid;
 }
 
 void Grid::AddObstacle( OBSTACLE_TYPE type , Size_t2 position ) {
-    Remove( position );
+    if( grid[position.x][position.y].size() > 0 ) {
+        return;
+    }  
     obstacles.push_back( ObstacleFactory::GetObstacleFactory()->Create( type , position ) );
-    grid[position.x][position.y] = ( Cell * )obstacles.back();
-
-    RecalculateAgents();
+    grid[position.x][position.y].push_back( ( Cell * )obstacles.back() );
 }
 
-Cell * Grid::GetCell( Size_t2 position ) {
+std::deque< Cell * > Grid::GetCell( Size_t2 position ) {
     return grid[position.x][position.y];
 }
 
-void Grid::AddAgent( Size_t2 position ) {    
+void Grid::AddAgent( Size_t2 position ) {  
+    if( grid[position.x][position.y].size() > 0 ) {
+        return;
+    }  
     agents.push_back( new Agent( position , position , 60 , gridAdapter->GetRadiusOfCell() / 1.25 , GREEN ) );
-    grid[position.x][position.y] = ( Cell* )agents.back();
+    grid[position.x][position.y].push_back( ( Cell* )agents.back() );
     
 }
 
@@ -73,19 +76,32 @@ void Grid::SetAgentEnd( Size_t2 position ) {
 }
 
 Cell * Grid::Remove( Size_t2 position ) {
+    std::deque < Cell * > cellBuff;
     Cell * cell;
     for ( size_t index = 0 ; index < obstacles.size() ; index++ ) {
         if( obstacles[index]->GetPosition().x == position.x && obstacles[index]->GetPosition().y == position.y ) {
-            cell = grid[position.x][position.y];
+            cellBuff = grid[position.x][position.y];
+            for ( size_t i = 0 ; i < cellBuff.size() ; i++ ) {
+                if( cellBuff[i] == ( Cell * ) obstacles[index] ) {
+                    cell = cellBuff[i];
+                    grid[position.x][position.y].erase( grid[position.x][position.y].begin() + i );
+                    break;
+                }
+            }
             obstacles.erase( obstacles.begin() + index );  
-            grid[position.x][position.y] = nullptr;
             return cell;
         }
     }
     for ( size_t index = 0 ; index < agents.size() ; index++ ) {
         if( ( agents[index]->GetStart().x == position.x && agents[index]->GetStart().y == position.y ) || ( agents[index]->GetEnd().x == position.x && agents[index]->GetEnd().y == position.y ) ) {
-            cell = grid[agents[index]->GetStart().x][agents[index]->GetStart().y];
-            grid[agents[index]->GetStart().x][agents[index]->GetStart().y] = nullptr;
+            cellBuff = grid[agents[index]->GetPosition().x][agents[index]->GetPosition().y];
+            for ( size_t i = 0 ; i < cellBuff.size() ; i++ ) {
+                if( cellBuff[i] == ( Cell * ) agents[index] ) {
+                    cell = cellBuff[i];
+                    grid[agents[index]->GetPosition().x][agents[index]->GetPosition().y].erase( grid[agents[index]->GetPosition().x][agents[index]->GetPosition().y].begin() + i );
+                    break;
+                }
+            }
             agents.erase( agents.begin() + index );  
             return cell;
         }
@@ -119,8 +135,14 @@ void Grid::MoveAgents() {
 }
 
 void Grid::MoveAgent( Size_t2 from , Size_t2 to , Agent * agent ) {
-    grid[from.x][from.y] = nullptr;
-    grid[to.x][to.y] = ( Cell * ) agent;
+    std::deque< Cell * > cellFrom = grid[from.x][from.y];
+    for ( size_t i = 0 ; i < cellFrom.size() ; i++ ) {
+        if( cellFrom[i] == ( Cell * ) agent ) {
+            grid[from.x][from.y].erase( grid[from.x][from.y].begin() + i );
+            break;
+        }
+    }
+    grid[to.x][to.y].push_back( ( Cell * ) agent );
 }
 
 void Grid::ResetAgents() {

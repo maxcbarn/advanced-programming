@@ -12,7 +12,7 @@ Hello this is the repo for the advanced programing class that i took at universi
 | 6 Design Pattern Factory | 13/11/2025 - 20:50 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_6) | No video | Yes
  7 Design Pattern Singleton, Adapter and Decorator | 22/11/2025 - 00:56 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_7) | No video | Yes
 | 8 Design Pattern Chain Of Responsability, Command and Observer | 02/12/2025 - 14:33 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_8) | No video | Yes
-| 9 | | | |
+| 9 Collision Detection | 08/12/2025 - 11:42 | [link](https://github.com/maxcbarn/advanced-programming/tree/main/assignment_9) | No Video | Yes
 | 10 | | | |
 | 11 | | | |
 | 12 | | | |

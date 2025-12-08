@@ -12,7 +12,9 @@ RemoveCell::~RemoveCell() {
 }
 
 void RemoveCell::Execute() {
+    recalculatePaths = new RecalculatePaths();
     GridAdapter * grid = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter() ;
     cell = grid->RemoveCell( grid->GetGridPosition( GetMousePosition() ) );
+    recalculatePaths->Execute();
     delete grid;
 }

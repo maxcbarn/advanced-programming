@@ -20,9 +20,8 @@ Dijkstra * Dijkstra::GetDijkstra() {
 }
 
 std::vector< Size_t2 > Dijkstra::FindPath( Size_t2 start , Size_t2 end ) {
-    
 
-    std::vector< std::vector< Cell* > > board = Grid::GetGrid()->GetBoard();
+    std::vector< std::vector< std::deque< Cell* > > > board = Grid::GetGrid()->GetBoard();
     std::vector< Obstacle * > obstacles = Grid::GetGrid()->GetObstacles();
     GridAdapter * gridAdapter = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter();
     std::vector< Size_t2 > neighburs;
@@ -120,8 +119,11 @@ std::vector< Size_t2 > Dijkstra::FindPath( Size_t2 start , Size_t2 end ) {
         }
 
         path.push_back(start);
+        std::reverse( path.begin() , path.end() );
+        return path;
+    } else {
+        path.clear();
+        return path;
     }
-    std::reverse( path.begin() , path.end() );
-    return path;
 }
 

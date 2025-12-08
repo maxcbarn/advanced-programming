@@ -105,7 +105,7 @@ void Agent::CalculatePath() {
 }
 
 void Agent::Reset( ) {
-    position = start;
+    MoveAgentInGrid( start );
     dynamic->SetDynamicPosition( gridAdapter->GetCentroidOfCell( position ) );
     tSpline = 0;
 }
@@ -123,8 +123,8 @@ std::vector< Size_t2 > Agent::GetPath() {
 }
 
 bool Agent::ReachedDestination() {
-    if( !endState ) {
-        return false;
+    if( endState || path.size() == 0 ) {
+        return true;
     }
 /* 
     if( tSpline == path.size() ) {
