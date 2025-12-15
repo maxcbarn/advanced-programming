@@ -5,6 +5,7 @@ Collisor::Collisor( size_t cost , bool isCellFill , float radius ) {
     this->cost = cost;
     this->isCellFill = isCellFill;
     this->radius = radius;
+    this->warningRadius = 2 * radius;
 }
 
 Collisor::~Collisor() {
@@ -21,4 +22,8 @@ float Collisor::GetRadius() {
 
 bool Collisor::IsCellFill() {
     return isCellFill;
+}
+
+float Collisor::GetWarningRadius() {
+    return warningRadius;
 }

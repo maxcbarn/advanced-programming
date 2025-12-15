@@ -14,7 +14,7 @@ Agent::Agent( Size_t2 position , Size_t2 start , float velocity , float radius ,
     endState = false;
     GridAdapter * adpater = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter();
     Dynamic * dynamic = new Dynamic( adpater->GetCentroidOfCell( position ) , velocity);
-    Collisor * collisor = new Collisor( INT_MAX , false , radius * 2.10 );
+    Collisor * collisor = new Collisor( INT_MAX , false , radius );
     delete adpater;
     tSpline = 0;
     this->dynamic = dynamic;
@@ -123,7 +123,7 @@ std::vector< Size_t2 > Agent::GetPath() {
 }
 
 bool Agent::ReachedDestination() {
-    if( endState || path.size() == 0 ) {
+    if( !endState || path.size() == 0 ) {
         return true;
     }
 /* 

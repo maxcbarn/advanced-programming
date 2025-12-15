@@ -66,7 +66,7 @@ void Grid::AddAgent( Size_t2 position ) {
     if( grid[position.x][position.y].size() > 0 ) {
         return;
     }  
-    agents.push_back( new Agent( position , position , 60 , gridAdapter->GetRadiusOfCell() / 1.25 , GREEN ) );
+    agents.push_back( new Agent( position , position , 60 , gridAdapter->GetRadiusOfCell() / 2 , GREEN ) );
     grid[position.x][position.y].push_back( ( Cell* )agents.back() );
     
 }

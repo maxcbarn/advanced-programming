@@ -21,8 +21,14 @@ void ActionFindCollisions::Execute( Agent * agent ) {
     std::vector< Agent * > toTest;
     std::deque< Cell* > cellBuff;
     Cell * cell;
-    if( gridAdapter->GetCell( agent->GetPosition() ).size() > 1 ) {
-        
+    cellBuff = gridAdapter->GetCell( agent->GetPosition() ); 
+    if( cellBuff.size() > 1 ) {
+        for ( size_t index = 0 ; index < cellBuff.size() ; index++ ) {
+            cell = cellBuff[index];
+            if( cell != ( Cell * ) agent && cell->GetCollisor() != nullptr && cell->GetDynamic() != nullptr ) {
+                toTest.push_back( ( Agent * ) cell );
+            }
+        }
     }
     for ( size_t index = 0 ; index < neightburs.size() ; index++ ) {
         if( gridAdapter->GetCell( neightburs[index] ).size() == 0 ) {
@@ -31,15 +37,21 @@ void ActionFindCollisions::Execute( Agent * agent ) {
         cellBuff = gridAdapter->GetCell( neightburs[index] );
         for ( size_t index = 0 ; index < cellBuff.size() ; index++ ) {
             cell = cellBuff[index];
-            if( cell->GetCollisor() != nullptr && cell->GetDynamic() ) {
+            if( cell->GetCollisor() != nullptr && cell->GetDynamic() != nullptr ) {
                 toTest.push_back( ( Agent * )cell );
             }
         }
     }
 
     for ( size_t index = 0 ; index < toTest.size() ; index++ ) {
-        if( dist( agent->GetDynamic()->GetDynamicPosition() , toTest[index]->GetDynamic()->GetDynamicPosition() ) <= agent->GetRadius() + toTest[index]->GetRadius() ) {
-            std::cout << "Collisont Between " << "(" << agent->GetDynamic()->GetDynamicPosition().x << "," << agent->GetDynamic()->GetDynamicPosition().y << ")" << " : (" <<  toTest[index]->GetDynamic()->GetDynamicPosition().x << "," << toTest[index]->GetDynamic()->GetDynamicPosition().y << ")" << std::endl;
+        if( dist( agent->GetDynamic()->GetDynamicPosition() , toTest[index]->GetDynamic()->GetDynamicPosition() ) <= agent->GetCollisor()->GetWarningRadius() + toTest[index]->GetCollisor()->GetWarningRadius() ) {
+            std::cout << "Possible Collision " << "(" << agent->GetDynamic()->GetDynamicPosition().x << "," << agent->GetDynamic()->GetDynamicPosition().y << ")" << " : (" <<  toTest[index]->GetDynamic()->GetDynamicPosition().x << "," << toTest[index]->GetDynamic()->GetDynamicPosition().y << ")" << std::endl;
+        } else {
+            continue;
+        }
+        
+        if( dist( agent->GetDynamic()->GetDynamicPosition() , toTest[index]->GetDynamic()->GetDynamicPosition() ) <= agent->GetCollisor()->GetRadius() + toTest[index]->GetCollisor()->GetRadius() ) {
+            std::cout << "Collision Between " << "(" << agent->GetDynamic()->GetDynamicPosition().x << "," << agent->GetDynamic()->GetDynamicPosition().y << ")" << " : (" <<  toTest[index]->GetDynamic()->GetDynamicPosition().x << "," << toTest[index]->GetDynamic()->GetDynamicPosition().y << ")" << std::endl;
         }
     }
     
