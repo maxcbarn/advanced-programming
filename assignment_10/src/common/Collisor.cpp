@@ -5,7 +5,7 @@ Collisor::Collisor( size_t cost , bool isCellFill , float radius ) {
     this->cost = cost;
     this->isCellFill = isCellFill;
     this->radius = radius;
-    this->warningRadius = 2 * radius;
+    this->warningRadius = 1.5 * radius;
 }
 
 Collisor::~Collisor() {

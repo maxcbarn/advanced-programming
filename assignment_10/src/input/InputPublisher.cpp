@@ -1,9 +1,14 @@
 #include "input/InputPublisher.hpp"
 #include "grid/GridAdapterFactory.hpp"
-
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include "common/Clock.hpp"
 
 InputPublisher::InputPublisher() {
     gridAdapter = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter();
+    std::ofstream appendFile("log.csv");
+    appendFile.close();
 }
 
 InputPublisher::~InputPublisher() {
@@ -31,6 +36,10 @@ void InputPublisher::Input() {
 
     if( input == THREE ) {
         Notify();
+        std::ofstream appendFile("log.csv", std::ios::app);
+        appendFile << std::fixed << std::setprecision(10) << ticks << "," << Clock::GetClock()->GetTimer() << std::endl;
+        ticks = ticks + 1;
+        appendFile.close();
     }
 
     if( !gridAdapter->IsValidMousePosition( GetMousePosition() ) ) {

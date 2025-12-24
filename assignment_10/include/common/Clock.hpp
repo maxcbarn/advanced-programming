@@ -7,9 +7,8 @@ class Clock
 {
 private:
     using Clock_t = std::chrono::high_resolution_clock;
-
-    Clock_t::time_point start;
-    double tick;
+    Clock_t::time_point start , timer;
+    double tick, timerValue;
     Clock();
     inline static Clock * clock = nullptr;
 public:
@@ -17,6 +16,9 @@ public:
     static Clock * GetClock();
     void Tick();
     double GetTick();
+    void StartTimer();
+    double StopGetTimer();
+    double GetTimer();
 };
 
 #endif

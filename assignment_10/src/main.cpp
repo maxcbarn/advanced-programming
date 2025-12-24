@@ -20,12 +20,14 @@
 int main() {
     bool running = true;
     BaseHandler * initialization;
-
     initialization = ( BaseHandler * ) new GetInfo();
     initialization->AddEnd( ( BaseHandler * ) new InitFactorys() );
     initialization->AddEnd( ( BaseHandler * ) new InitGrid() );
     initialization->AddEnd( ( BaseHandler * ) new InitUi() );
     initialization->Execute( InicializationVariables() );
+
+    std::ofstream appendFile("log.csv");
+    appendFile.close();
 
     delete initialization;
 
@@ -43,6 +45,7 @@ int main() {
         BeginDrawing( );  
         ClearBackground( BLACK );
         gridAdapter->DrawGrid();
+        
 
         EndDrawing();
     } 

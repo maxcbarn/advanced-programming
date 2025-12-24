@@ -20,6 +20,7 @@ public:
     Vector2 GetDynamicPosition();
     Vector2 GetDirectionVector( Agent * agent );
     void SetDirection( Vector2 dir );
+    void Reset();
 };
 
 #endif

@@ -46,7 +46,7 @@ void ActionFindCollisions::Execute( Agent * agent ) {
 
     for ( size_t index = 0 ; index < toTest.size() ; index++ ) {
         if( dist( agent->GetDynamic()->GetDynamicPosition() , toTest[index]->GetDynamic()->GetDynamicPosition() ) <= agent->GetCollisor()->GetWarningRadius() + toTest[index]->GetCollisor()->GetWarningRadius() ) {
-            std::cout << "Possible Collision " << "(" << agent->GetDynamic()->GetDynamicPosition().x << "," << agent->GetDynamic()->GetDynamicPosition().y << ")" << " : (" <<  toTest[index]->GetDynamic()->GetDynamicPosition().x << "," << toTest[index]->GetDynamic()->GetDynamicPosition().y << ")" << std::endl;
+            /* std::cout << "Possible Collision " << "(" << agent->GetDynamic()->GetDynamicPosition().x << "," << agent->GetDynamic()->GetDynamicPosition().y << ")" << " : (" <<  toTest[index]->GetDynamic()->GetDynamicPosition().x << "," << toTest[index]->GetDynamic()->GetDynamicPosition().y << ")" << std::endl; */
             Resolve( agent , toTest[index] );
         } else {
             continue;
@@ -69,15 +69,30 @@ bool ActionFindCollisions::CheckFutureCollison( [[maybe_unused]] Agent * agentTo
 }
 
 void ActionFindCollisions::Resolve( Agent * agent, Agent * agentTo ) {
-    auto rotateDirection = []( Vector2 v ) {
+    auto rotateDirectionCCW = []( Vector2 v ) {
         if( v.x == 0 && v.y == 0 ) {
             return v;
         }
         return Vector2{ v.y * -1 , v.x };
     };
+    auto rotateDirectionCW = []( Vector2 v ) {
+        if( v.x == 0 && v.y == 0 ) {
+            return v;
+        }
+        return Vector2{ v.y , v.x * -1 };
+    };
+    auto angleBetweenVector = []( Vector2 a , Vector2 b ) {
+        return atan2( a.x * b.y - a.y * b.x , a.x * b.x - a.y * b.y );
+    };
     
-    Vector2 dir = normalize( dirVector( agent->GetDynamic()->GetDynamicPosition() , agentTo->GetDynamic()->GetDynamicPosition() ) );
-    if( compareFloat( dir , agent->GetDynamic()->GetDirectionVector( agent ) , 0.004 ) ) {
-        agent->GetDynamic()->SetDirection( rotateDirection( agent->GetDynamic()->GetDirectionVector( agent ) ) );
+    Vector2 dirToAgent = normalize( dirVector( agent->GetDynamic()->GetDynamicPosition() , agentTo->GetDynamic()->GetDynamicPosition() ) );
+    double angleBetweenCCW = angleBetweenVector( dirToAgent , rotateDirectionCCW( agent->GetDynamic()->GetDirectionVector( agent ) ) );
+    double angleBetweenCW = angleBetweenVector( dirToAgent , rotateDirectionCW( agent->GetDynamic()->GetDirectionVector( agent ) ) ); 
+    if( angleBetweenVector( dirToAgent , agent->GetDynamic()->GetDirectionVector( agent ) ) <= 50 ) {
+        if( angleBetweenCCW < angleBetweenCW ) {
+            agent->GetDynamic()->SetDirection( rotateDirectionCCW( agent->GetDynamic()->GetDirectionVector( agent ) ) );
+        } else {
+            agent->GetDynamic()->SetDirection( rotateDirectionCW( agent->GetDynamic()->GetDirectionVector( agent ) ) );
+        }
     }
 }

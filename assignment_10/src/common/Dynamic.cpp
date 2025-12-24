@@ -58,7 +58,16 @@ void Dynamic::SetDynamicPosition( Vector2 position ) {
 
 void Dynamic::SetDirection( Vector2 dir ) {
     GridAdapter * adapter = GridAdapterFactory::GetGridAdapterFactory()->GetAdapter();
+    if( distance > adapter->GetRadiusOfCell() * 1.25 * 0.95) {
+        delete adapter;
+        return;
+    }
     this->direction = dir;
-    this->distance = adapter->GetRadiusOfCell() * 2.1;
+    this->distance = adapter->GetRadiusOfCell() * 1.25;
     delete adapter;
+}
+
+void Dynamic::Reset() {
+    this->distance = -1;
+    this->localObjective = Vector2{ -1 , -1 };
 }

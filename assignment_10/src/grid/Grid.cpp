@@ -1,5 +1,6 @@
 #include "grid/Grid.hpp"
 #include "agent/Agent.hpp"
+#include "common/Clock.hpp"
 
 Grid::Grid( size_t rows , size_t columns ) {
     this->rows = rows;
@@ -129,9 +130,11 @@ bool Grid::GetEndAgentState() {
 }
 
 void Grid::MoveAgents() {
+    Clock::GetClock()->StartTimer();
     for ( size_t index = 0 ; index < agents.size() ; index++ ) {
         agents[index]->Tick();
     }
+    Clock::GetClock()->StopGetTimer();
 }
 
 void Grid::MoveAgent( Size_t2 from , Size_t2 to , Agent * agent ) {

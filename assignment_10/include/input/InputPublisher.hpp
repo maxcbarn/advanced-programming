@@ -16,6 +16,7 @@ private:
     INPUT input;
     GridAdapter * gridAdapter;
     void Notify();
+    double ticks = 0;
 public:
     ~InputPublisher();
     static InputPublisher * GetInputPublisher();

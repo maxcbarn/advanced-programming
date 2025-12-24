@@ -122,6 +122,7 @@ Size_t2 Agent::LowestNeighbur( Size_t2 position ) {
 void Agent::Reset( ) {
     dynamic->SetDynamicPosition( gridAdapter->GetCentroidOfCell( position ) );
     MoveAgentInGrid( start );
+    dynamic->Reset(); 
     tSpline = 0;
 }
 
